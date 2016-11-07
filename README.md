@@ -1,5 +1,7 @@
 # content-player
 
+play podcasts and videos, view feed posts
+
 ## Client
 
 Client is built with [create-react-app](https://github.com/facebookincubator/create-react-app)
@@ -41,3 +43,9 @@ $ npm start
 * Playlists
 	* autoplay next
 * Display podcast show notes
+
+---
+
+## TODO
+
+* 
