@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router'
 
 class AudioPlayer extends Component {
 
@@ -22,6 +21,7 @@ class AudioPlayer extends Component {
       </div>
     )
   }
+
 }
 
 export default AudioPlayer

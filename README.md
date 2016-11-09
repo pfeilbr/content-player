@@ -9,14 +9,19 @@ Client is built with [create-react-app](https://github.com/facebookincubator/cre
 **Developing**
 
 ```sh
-& cd src/client
+$ cd src/client
 $ npm start
 # visit http://localhost:3000
 ```
 
 ## Server
 
-...
+```sh
+$ cd src/server
+$ npm start
+# visit http://localhost:3001
+```
+
 
 ---
 
@@ -48,4 +53,4 @@ $ npm start
 
 ## TODO
 
-* 
+*
