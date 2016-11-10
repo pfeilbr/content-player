@@ -1,39 +1,54 @@
 import {push} from 'react-router-redux'
-// import fetch from 'isomorphic-fetch'
-import jsonp from 'jsonp'
+import axios from 'axios'
 
-export const loginRequest = (username, password) => ({type: 'LOGIN_REQUEST', username, password})
+const axiosClient = () => {
+  let instance = axios.create({
+    baseURL: 'http://localhost:3001'
+  })
+  const token = localStorage.getItem('token')
+  if (token) {
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
+  return instance
+}
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST'
+export const LOGIN_RESPONSE = 'LOGIN_RESPONSE'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const loginRequest = (username, password) => ({type: LOGIN_REQUEST, username, password})
 export const loginResponse = (resp) => ({
-  type: 'LOGIN_RESPONSE',
+  type: LOGIN_RESPONSE,
   ...resp
+})
+export const loginError = (err) => ({
+  type: LOGIN_ERROR,
+  error: err
 })
 export const login = (username, password) => dispatch => {
   dispatch(loginRequest(username, password))
 
-  jsonp('https://itunes.apple.com/search?media=podcast&entity=podcast&term=javascript&limit=200', null, function (err, data) {
-    if (err) {
-      console.error(err.message);
-    } else {
-      console.log(data);
-    }
-  });
-
-  // fetch('https://itunes.apple.com/search?term=jack+johnson')
-  //   .then(resp => console.log(resp))
-
-  return new Promise((resolve, reject) => {
-    resolve({username, password})
-  }).then(json => {
-    dispatch(loginResponse(json))
-    dispatch(push('contentlist'))
-  })
+  return axiosClient().post('/login', {username, password})
+    .then(res => {
+      console.log(res)
+      localStorage.setItem('token', res.data.token)
+      dispatch(loginResponse(res.data))
+      dispatch(push('contentlist'))
+    })
+    .catch(err =>  {
+      console.log(err)
+      dispatch(loginError(err))
+    })
 }
 
-export const logoutRequest = () => ({type: 'LOGOUT_REQUEST'})
-export const logoutResponse = (resp) => ({type: 'LOGOUT_RESPONSE'})
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export const LOGOUT_RESPONSE = 'LOGOUT_RESPONSE'
+export const LOGOUT_ERROR = 'LOGOUT_ERROR'
+export const logoutRequest = () => ({type: LOGOUT_REQUEST})
+export const logoutResponse = (resp) => ({type: LOGOUT_RESPONSE})
 export const logout = () => dispatch => {
   dispatch(logoutRequest())
   return new Promise((resolve, reject) => {
+    localStorage.setItem('token', null)
     resolve()
   }).then(json => {
     dispatch(logoutResponse(json))
@@ -41,7 +56,29 @@ export const logout = () => dispatch => {
   })
 }
 
-export const addContent = (e) => dispatch => {
-  dispatch({type: 'ADD_CONTENT'})
-  dispatch(push('addcontent'))
+export const NAV_TO_SEARCH = 'NAV_TO_SEARCH'
+
+export const navigateToSearch = (e) => dispatch => {
+  dispatch({type: NAV_TO_SEARCH})
+  dispatch(push('search'))
+}
+
+export const SEARCH_FEED_REQUEST = 'SEARCH_FEED_REQUEST'
+export const SEARCH_FEED_RESPONSE = 'SEARCH_FEED_RESPONSE'
+export const SEARCH_FEED_ERROR = 'SEARCH_FEED_ERROR'
+export const SEARCH_FEED_CLEAR = 'SEARCH_FEED_CLEAR'
+export const searchFeedRequest = (term) => ({type: SEARCH_FEED_REQUEST, term})
+export const searchFeedResponse = (resp) => ({type: SEARCH_FEED_RESPONSE, results: resp.results})
+export const searchFeedError = (err) => ({type: SEARCH_FEED_ERROR, error: err})
+export const searchFeedClear = () => ({type: SEARCH_FEED_CLEAR})
+export const searchFeed = (term) => dispatch => {
+  dispatch(searchFeedRequest(term))
+
+  return axiosClient().get(`/feed/search?term=${term}`)
+    .then(res => {
+      dispatch(searchFeedResponse(res.data))
+    })
+    .catch(err =>  {
+      dispatch(searchFeedError(err))
+    })
 }

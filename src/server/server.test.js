@@ -76,7 +76,6 @@ describe('server', () => {
       })
   })
 
-
   test('/feed/search term param set', (done) => {
     authRequest(
       request(server)

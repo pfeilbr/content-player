@@ -16,12 +16,18 @@ $ npm start
 
 ## Server
 
+**Running**
+
 ```sh
 $ cd src/server
 $ npm start
 # visit http://localhost:3001
 ```
+**Testing**
 
+```sh
+npm test -- --watch
+```
 
 ---
 

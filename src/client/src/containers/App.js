@@ -11,7 +11,7 @@ class App extends Component {
 
   render() {
     const {store} = this.context
-    const authenticated = store.getState().user.authenticated
+    const authenticated = !!store.getState().user.token
 
     const {logout} = this.props
 

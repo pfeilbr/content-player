@@ -1,39 +1,44 @@
-//import * as ActionTypes from '../actions'
-import { routerReducer as routing } from 'react-router-redux'
-import { combineReducers } from 'redux'
+import * as Actions from '../actions'
+import {routerReducer as routing} from 'react-router-redux'
+import {combineReducers} from 'redux'
 
-const user = (state = {authenticated: false}, action) => {
+const user = (state = {
+  authenticated: false
+}, action) => {
 
   switch (action.type) {
-    case 'LOGIN_REQUEST':
+    case Actions.LOGIN_REQUEST:
       return {
         ...state,
         username: action.username,
         password: action.password,
-        isFetching: true,
-        authenticated: false
+        isFetching: true
       }
-    case 'LOGIN_RESPONSE':
+    case Actions.LOGIN_RESPONSE:
       return {
         ...state,
-        username: action.username,
-        sessionid: 123,
+        username: action.user.username,
+        token: action.token,
+        isFetching: false
+      }
+    case Actions.LOGIN_ERROR:
+      return {
+        ...state,
         isFetching: false,
-        authenticated: true
+        error: action.error
       }
-    case 'LOGOUT_REQUEST':
+
+    case Actions.LOGOUT_REQUEST:
       return {
         ...state,
-        isFetching: true,
-        authenticated: false
+        isFetching: true
       }
-      case 'LOGOUT_RESPONSE':
-        return {
-          ...state,
-          isFetching: false,
-          authenticated: false,
-          sessionid: null
-        }
+    case Actions.LOGOUT_RESPONSE:
+      return {
+        ...state,
+        token: null,
+        isFetching: false
+      }
 
     default:
       return state
@@ -46,12 +51,10 @@ const contentDefaultState = {
     {
       id: 1,
       name: 'js jabber'
-    },
-    {
+    }, {
       id: 2,
       name: 'gotime'
-    },
-    {
+    }, {
       id: 3,
       name: 'ATP'
     }
@@ -62,10 +65,39 @@ const content = (state = contentDefaultState, action) => {
   return state
 }
 
-const rootReducer = combineReducers({
-  user,
-  content,
-  routing
-})
+const search = (state = {
+  isFetching: false,
+  results: []
+}, action) => {
+  switch (action.type) {
+    case Actions.SEARCH_FEED_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case Actions.SEARCH_FEED_RESPONSE:
+      return {
+        ...state,
+        results: action.results,
+        isFetching: false
+      }
+    case Actions.SEARCH_FEED_ERROR:
+      return {
+        ...state,
+        isFetching: false
+      }
+      case Actions.SEARCH_FEED_CLEAR:
+        return {
+          ...state,
+          results: [],
+          isFetching: false
+        }
+
+    default:
+      return state
+  }
+}
+
+const rootReducer = combineReducers({user, content, search, routing})
 
 export default rootReducer

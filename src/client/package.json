@@ -15,6 +15,7 @@
     "redux-thunk": "^2.1.0"
   },
   "dependencies": {
+    "axios": "^0.15.2",
     "isomorphic-fetch": "^2.2.1",
     "jsonp": "^0.2.0",
     "react": "^15.3.2",
