@@ -19,7 +19,8 @@ const user = (state = {
         ...state,
         username: action.user.username,
         token: action.token,
-        isFetching: false
+        isFetching: false,
+        error: null
       }
     case Actions.LOGIN_ERROR:
       return {

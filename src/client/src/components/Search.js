@@ -15,7 +15,6 @@ class Search extends Component {
   }
 
   render() {
-
     const {search} = this.props
 
     const resultItems = search.results.map(item => {
@@ -24,10 +23,9 @@ class Search extends Component {
 
     return (
       <div>
-        <p>
+        {/* <p>
           <a href="#" onClick={browserHistory.goBack}>back</a>
-        </p>
-        <h3>Add Content</h3>
+        </p> */}
         <p>
           <span>search: </span><input type="text" onChange={this.handleSearch}></input>
         </p>

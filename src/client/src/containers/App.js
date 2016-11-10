@@ -1,7 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {Link} from 'react-router'
 import * as Actions from '../actions'
+import Nav from '../components/Nav'
+
+const NavCtrl = connect(
+  state => state,
+  (dispatch, ownProps) => bindActionCreators(Actions, dispatch)
+)(Nav)
 
 class App extends Component {
 
@@ -18,11 +25,7 @@ class App extends Component {
     return (
       <div className="App">
         <h2>Content Player</h2>
-        {authenticated
-          ? (
-            <button onClick={logout}>logout</button>
-          )
-          : ''}
+        <NavCtrl />
         {this.props.children}
       </div>
     );

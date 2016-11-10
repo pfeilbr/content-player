@@ -12,6 +12,10 @@ const axiosClient = () => {
   return instance
 }
 
+export const navigate = (pathname) => dispatch => {
+  dispatch(push(pathname))
+}
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
@@ -48,7 +52,7 @@ export const logoutResponse = (resp) => ({type: LOGOUT_RESPONSE})
 export const logout = () => dispatch => {
   dispatch(logoutRequest())
   return new Promise((resolve, reject) => {
-    localStorage.setItem('token', null)
+    localStorage.removeItem('token')
     resolve()
   }).then(json => {
     dispatch(logoutResponse(json))
