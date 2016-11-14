@@ -1,7 +1,4 @@
 import React, {Component} from 'react'
-import {browserHistory} from 'react-router'
-
- // = ( {searchFeed, search} ) => {
 
 class Search extends Component {
 
@@ -18,7 +15,9 @@ class Search extends Component {
     const {search} = this.props
 
     const resultItems = search.results.map(item => {
-      return (<li key={item.trackId}>{item.trackName}</li>)
+      return (
+        <li key={item.trackId}>{item.trackName}</li>
+      )
     })
 
     return (
@@ -27,7 +26,9 @@ class Search extends Component {
           <a href="#" onClick={browserHistory.goBack}>back</a>
         </p> */}
         <p>
-          <span>search: </span><input type="text" onChange={this.handleSearch}></input>
+          <span>search:
+          </span>
+          <input type="text" onChange={this.handleSearch}></input>
         </p>
         <p>
           <ul>

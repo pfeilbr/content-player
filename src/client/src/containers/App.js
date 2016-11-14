@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Link} from 'react-router'
 import * as Actions from '../actions'
 import Nav from '../components/Nav'
 
@@ -17,10 +16,6 @@ class App extends Component {
   }
 
   render() {
-    const {store} = this.context
-    const authenticated = !!store.getState().user.token
-
-    const {logout} = this.props
 
     return (
       <div className="App">

@@ -1,5 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {push} from 'react-router-redux'
+import React, {Component} from 'react'
+import './Nav.css'
+
+const styles = {
+  active: {
+    'text-decoration': 'none'
+  }
+}
 
 class Nav extends Component {
 
@@ -22,7 +28,7 @@ class Nav extends Component {
       return authenticated
     }).map(pathname => {
       const active = routing.locationBeforeTransitions.pathname.includes(pathname)
-      return (<a href='' style={active ? {'text-decoration': 'none'}: {}} onClick={e => this.handleNavigate(e, pathname)}>{pathname}</a>)
+      return (<a href='' className='Nav-link' style={active ? styles.active: {}} onClick={e => this.handleNavigate(e, pathname)}>{pathname}</a>)
     })
 
     return (<div>

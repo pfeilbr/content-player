@@ -9,7 +9,6 @@ const ContentList = ({content, navigateToSearch}) => {
   ))
   return (
     <div>
-      <button onClick={navigateToSearch}>search</button>
       <ul>
         {items}
       </ul>
