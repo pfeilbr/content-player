@@ -9,9 +9,7 @@ const ContentList = ({content, navigateToSearch}) => {
   ))
   return (
     <div>
-      <ul>
-        {items}
-      </ul>
+      {items.length > 0 ? (<ul>{items}</ul>) : <span>No Content</span>}
     </div>
   )
 }

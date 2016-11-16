@@ -1,26 +1,28 @@
 import React, {Component} from 'react'
+import {style} from 'glamor'
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 
 class Login extends Component {
 
   performLogin = (e) => {
     e.preventDefault()
-    this.props.login(this.username.value, this.password.value)
+    this.props.login(this.username, this.password)
   }
 
   render() {
     const {user} = this.props
     return (
-      <div className="login">
-        <form>
-          <p><input type="text" placeholder="Username (email)" ref={e => this.username = e}/></p>
-          <p><input type="password" placeholder="Password" ref={e => this.password = e}/></p>
-          {user.error ? <em>{user.error.response.data}</em> : ''}
-          <p>
-            <button onClick={this.performLogin}>login</button>
-          </p>
-        </form>
-        {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
-      </div>
+      <Paper {...style({maxWidth: '400px', margin: 'auto'})} zDepth={2}>
+          <form {...style({padding: '4em'})}>
+            <TextField type="text" hintText="Username (email)" fullWidth={true} onChange={e => this.username = e.target.value}/>
+            <TextField type="password" hintText="Password" fullWidth={true} onChange={e => this.password = e.target.value}/>
+            {user.error ? <em>{user.error.response.data}</em> : ''}
+            <RaisedButton label="Login" primary={true} fullWidth={true} onClick={this.performLogin} />
+          </form>
+          {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+      </Paper>
     )
   }
 }

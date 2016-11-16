@@ -1,4 +1,5 @@
 import path from 'path'
+import portfinder from 'portfinder'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -57,14 +58,28 @@ app.get('/feed/search', (req, res) => {
   })
 })
 
+app.get('/feed/fetch', (req, res) => {
+  const feed = req.query.feed || req.params.feed
+  if (!feed) {
+    return res.status(400).send('"feed" parameter missing')
+  }
+
+  FeedService.fetch({feed}, (err, resp) => {
+    if (err) {
+      return res.status(500).send(`error: ${err}`)
+    }
+    res.send(resp)
+  })
+})
+
 app.all('*', (req, res) => {
   res.send(req.url)
 })
 
-const port = 3001
-const server = app.listen(port, (error) => {
-  if (error) {
-    console.error(error)
+const port = process.env.PORT || 3001
+const server = app.listen(port, (err) => {
+  if (err) {
+    console.error(err)
   } else {
     console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
   }

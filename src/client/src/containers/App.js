@@ -2,7 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as Actions from '../actions'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import AppBar from 'material-ui/AppBar'
 import Nav from '../components/Nav'
+import IconButton from 'material-ui/IconButton'
+import FontIcon from 'material-ui/FontIcon'
+import MoreVert from 'material-ui/svg-icons/navigation/more-vert'
 
 const NavCtrl = connect(
   state => state,
@@ -17,13 +22,26 @@ class App extends Component {
 
   render() {
 
+    const addButton = (
+      // <IconButton><FontIcon className="material-icons" style={{marginRight: 24}}>more</FontIcon></IconButton>
+      <IconButton><MoreVert color='white'/></IconButton>
+    )
+
     return (
-      <div className="App">
-        <h2>Content Player</h2>
-        <NavCtrl />
-        {this.props.children}
+      <MuiThemeProvider>
+        <div>
+        <AppBar
+          title="Content Player"
+          showMenuIconButton={false}
+          iconElementRight={addButton}
+        />
+        <div className="App">
+          <NavCtrl />
+          {this.props.children}
+        </div>
       </div>
-    );
+    </MuiThemeProvider>
+    )
   }
 }
 

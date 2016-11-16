@@ -18,7 +18,7 @@ test('search: has no results', (done) => {
 
 test('fetch: valid feed', (done) => {
   const feed = 'https://feeds.feedwrench.com/JavaScriptJabber.rss'
-  FeedService.fetch(feed, (err, posts) => {
+  FeedService.fetch({feed}, (err, posts) => {
     expect(posts.length).toBeGreaterThan(0)
     done()
   })
@@ -26,7 +26,7 @@ test('fetch: valid feed', (done) => {
 
 test('fetch: invalid feed', (done) => {
   const feed = 'https://feeds.feedwrench.com/loremabc'
-  FeedService.fetch(feed, (err, posts) => {
+  FeedService.fetch({feed}, (err, posts) => {
     expect(err).toBeDefined()
     done()
   })

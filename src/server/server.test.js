@@ -105,4 +105,20 @@ describe('server', () => {
       })
   })
 
+  test('/feed/fetch feed param set', (done) => {
+    authRequest(
+      request(server)
+        .get('/feed/fetch?feed=https://feeds.feedwrench.com/JavaScriptJabber.rss')
+      )
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect(res => {
+        expect(res.body.length).toBeGreaterThan(0)
+      })
+      .end(err => {
+        expect(err).toBeNull()
+        done()
+      })
+  })
+
 })

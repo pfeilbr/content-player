@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
-import './Nav.css'
+import {style, merge} from 'glamor'
 
-const styles = {
-  active: {
-    'text-decoration': 'none'
-  }
-}
+
+let linkRule = style({padding: '3px'})
+let activeRule = style({textDecoration: 'none'})
 
 class Nav extends Component {
 
@@ -28,13 +26,20 @@ class Nav extends Component {
       return authenticated
     }).map(pathname => {
       const active = routing.locationBeforeTransitions.pathname.includes(pathname)
-      return (<a href='' className='Nav-link' style={active ? styles.active: {}} onClick={e => this.handleNavigate(e, pathname)}>{pathname}</a>)
+      return (
+        <a key={pathname} {...merge(linkRule, active ? activeRule : {})} href='' onClick={e => this.handleNavigate(e, pathname)}>{pathname}</a>
+      )
     })
 
-    return (<div>
-      {authenticated ? items : ''}
-      {/* <pre>{JSON.stringify(this.props, null, 2)}</pre> */}
-    </div>)
+
+    return (
+      <div {...style({'marginBottom': '15px'})}>
+        {authenticated
+          ? items
+          : ''}
+        {/* <pre>{JSON.stringify(this.props, null, 2)}</pre> */}
+      </div>
+    )
   }
 }
 

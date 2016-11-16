@@ -49,16 +49,16 @@ const user = (state = {
 
 const contentDefaultState = {
   items: [
-    {
-      id: 1,
-      name: 'js jabber'
-    }, {
-      id: 2,
-      name: 'gotime'
-    }, {
-      id: 3,
-      name: 'ATP'
-    }
+    // {
+    //   id: 1,
+    //   name: 'js jabber'
+    // }, {
+    //   id: 2,
+    //   name: 'gotime'
+    // }, {
+    //   id: 3,
+    //   name: 'ATP'
+    // }
   ]
 }
 
@@ -74,6 +74,7 @@ const search = (state = {
     case Actions.SEARCH_FEED_REQUEST:
       return {
         ...state,
+        results: [],
         isFetching: true
       }
     case Actions.SEARCH_FEED_RESPONSE:
@@ -87,18 +88,45 @@ const search = (state = {
         ...state,
         isFetching: false
       }
-      case Actions.SEARCH_FEED_CLEAR:
-        return {
-          ...state,
-          results: [],
-          isFetching: false
-        }
+    case Actions.SEARCH_FEED_CLEAR:
+      return {
+        ...state,
+        results: [],
+        isFetching: false
+      }
 
     default:
       return state
   }
 }
 
-const rootReducer = combineReducers({user, content, search, routing})
+const feed = (state = {
+  isFetching: false,
+  results: []
+}, action) => {
+  switch (action.type) {
+    case Actions.FETCH_FEED_REQUEST:
+      return {
+        ...state,
+        results: [],
+        isFetching: true
+      }
+    case Actions.FETCH_FEED_RESPONSE:
+      return {
+        ...state,
+        results: action.results,
+        isFetching: false
+      }
+    case Actions.FETCH_FEED_ERROR:
+      return {
+        ...state,
+        isFetching: false
+      }
+    default:
+      return state
+  }
+}
+
+const rootReducer = combineReducers({user, content, search, feed, routing})
 
 export default rootReducer

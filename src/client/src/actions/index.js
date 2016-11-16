@@ -61,7 +61,6 @@ export const logout = () => dispatch => {
 }
 
 export const NAV_TO_SEARCH = 'NAV_TO_SEARCH'
-
 export const navigateToSearch = (e) => dispatch => {
   dispatch({type: NAV_TO_SEARCH})
   dispatch(push('search'))
@@ -77,7 +76,6 @@ export const searchFeedError = (err) => ({type: SEARCH_FEED_ERROR, error: err})
 export const searchFeedClear = () => ({type: SEARCH_FEED_CLEAR})
 export const searchFeed = (term) => dispatch => {
   dispatch(searchFeedRequest(term))
-
   return axiosClient().get(`/feed/search?term=${term}`)
     .then(res => {
       dispatch(searchFeedResponse(res.data))
@@ -85,4 +83,28 @@ export const searchFeed = (term) => dispatch => {
     .catch(err =>  {
       dispatch(searchFeedError(err))
     })
+}
+
+export const FETCH_FEED_REQUEST = 'FETCH_FEED_REQUEST'
+export const FETCH_FEED_RESPONSE = 'FETCH_FEED_RESPONSE'
+export const FETCH_FEED_ERROR = 'FETCH_FEED_ERROR'
+export const fetchFeedRequest = (feed) => ({type: FETCH_FEED_REQUEST, feed})
+export const fetchFeedResponse = (resp) => ({type: FETCH_FEED_RESPONSE, results: resp})
+export const fetchFeedError = (err) => ({type: FETCH_FEED_ERROR, error: err})
+export const fetchFeed = (feed) => dispatch => {
+  dispatch(fetchFeedRequest(feed))
+  return axiosClient().get(`/feed/fetch?feed=${feed}`)
+    .then(res => {
+      dispatch(fetchFeedResponse(res.data))
+    })
+    .catch(err =>  {
+      dispatch(fetchFeedError(err))
+    })
+}
+
+export const VIEW_FEED = 'VIEW_FEED'
+export const viewFeed = (feed) => dispatch => {
+  dispatch({type: VIEW_FEED, feed})
+  dispatch(fetchFeed(feed))
+  dispatch(push({pathname: 'feed', query: {feed}}))
 }

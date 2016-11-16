@@ -13,7 +13,7 @@ export default class FeedService {
     })
   }
 
-  static fetch(feed, cb) {
+  static fetch({feed}, cb) {
 
     let posts = []
 

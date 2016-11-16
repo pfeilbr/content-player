@@ -4,6 +4,7 @@ import App from './containers/App'
 import LoginPage from './containers/LoginPage'
 import ContentListPage from './containers/ContentListPage'
 import SearchPage from './containers/SearchPage'
+import FeedPage from './containers/FeedPage'
 import AudioPlayerPage from './containers/AudioPlayerPage'
 
 export default(store) => {
@@ -21,6 +22,7 @@ export default(store) => {
       <Route path="login" component={LoginPage}/>
       <Route path="contentlist" component={ContentListPage}/>
       <Route path="search" component={SearchPage}/>
+      <Route path="feed" component={FeedPage}/>
       <Route path="audioplayer/:id" component={AudioPlayerPage}/>
     </Route>
   )
