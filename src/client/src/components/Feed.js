@@ -7,20 +7,16 @@ import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 
 const Feed = ({feed: {results,isFetching}}) => {
-  const items = results.map(item => (
-      <div key={item.guid}>{item.title}</div>
-    )
-  )
 
   const item = results.length > 0 ? results[0] : {meta: {image: {}}}
 
-  const content = (
-    <div>
-      <h3><a target='_blank' href={item.meta.link}>{item.meta.title}</a></h3>
-      <p>{item.meta.description}</p>
-      <p>{items}</p>
-    </div>
-  )
+  // const content = (
+  //   <div>
+  //     <h3><a target='_blank' href={item.meta.link}>{item.meta.title}</a></h3>
+  //     <p>{item.meta.description}</p>
+  //     <p>{items}</p>
+  //   </div>
+  // )
 
   const card = (
     <Card>
@@ -33,7 +29,7 @@ const Feed = ({feed: {results,isFetching}}) => {
 
   const episodeListItems = results.map(item => (
       <div>
-        <ListItem primaryText={item.title} />
+        <ListItem key={item.guid} primaryText={item.title} />
         <Divider />
       </div>
     )

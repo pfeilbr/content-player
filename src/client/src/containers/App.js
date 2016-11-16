@@ -4,10 +4,12 @@ import {connect} from 'react-redux'
 import * as Actions from '../actions'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
 import Nav from '../components/Nav'
 import IconButton from 'material-ui/IconButton'
 import FontIcon from 'material-ui/FontIcon'
-import MoreVert from 'material-ui/svg-icons/navigation/more-vert'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
 const NavCtrl = connect(
   state => state,
@@ -22,25 +24,38 @@ class App extends Component {
 
   render() {
 
+    const {user, navigateToSearch, logout} = this.props
+
+    const MoreButton = (props) => (
+      <IconMenu
+        {...props}
+        iconButtonElement={
+          <IconButton><MoreVertIcon color='white' /></IconButton>
+        }
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+      >
+        <MenuItem primaryText="Search" onClick={navigateToSearch}/>
+        <MenuItem primaryText="Sign out" onClick={logout}/>
+      </IconMenu>
+    )
+
     const addButton = (
-      // <IconButton><FontIcon className="material-icons" style={{marginRight: 24}}>more</FontIcon></IconButton>
-      <IconButton><MoreVert color='white'/></IconButton>
+      <IconButton><MoreVertIcon color='white'/></IconButton>
     )
 
     return (
       <MuiThemeProvider>
         <div>
-        <AppBar
-          title="Content Player"
-          showMenuIconButton={false}
-          iconElementRight={addButton}
-        />
-        <div className="App">
-          <NavCtrl />
+          <AppBar
+            title="Content Player"
+            showMenuIconButton={false}
+            iconElementRight={user.token ? <MoreButton /> : null}
+          />
+          <div style={{marginBottom: '20px'}}/>
           {this.props.children}
         </div>
-      </div>
-    </MuiThemeProvider>
+      </MuiThemeProvider>
     )
   }
 }

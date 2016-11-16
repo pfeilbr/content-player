@@ -39,14 +39,13 @@ class Search extends Component {
 
     const list = (
       <List>
-        {/* <Subheader>Results</Subheader> */}
         {listItems}
       </List>
     )
 
     return (
       <div>
-          <TextField type="text" hintText="search" onChange={this.handleSearch}/>
+          <TextField type="text" hintText="search" fullWidth={true} onChange={this.handleSearch}/>
           {list}
       </div>
     )
